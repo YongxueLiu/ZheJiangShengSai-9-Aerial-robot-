@@ -1,0 +1,506 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<sdf version="1.9">
+  <world name="drone_competition_v1">
+    <physics type="ode">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>250</real_time_update_rate>
+    </physics>
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type="adiabatic"/>
+    <scene>
+      <grid>false</grid>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>true</shadows>
+    </scene>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>1 1</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode/>
+            </friction>
+            <bounce/>
+            <contact/>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>500 500</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.8 0.8 0.8 1</specular>
+          </material>
+        </visual>
+        <pose>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+        </inertial>
+        <enable_wind>false</enable_wind>
+      </link>
+      <pose>0 0 0 0 -0 0</pose>
+      <self_collide>false</self_collide>
+    </model>
+
+    <model name="boundary">
+      <static>true</static>
+      <link name="walls">
+        <collision name="south"><pose>4 0 1.25 0 0 0</pose><geometry><box><size>8 0.1 2.5</size></box></geometry></collision>
+        <visual name="south_v">
+          <pose>4 0 1.25 0 0 0</pose>
+          <geometry><box><size>8 0.1 2.5</size></box></geometry>
+          <material>
+            <ambient>1 1 0 1</ambient>
+            <diffuse>1 1 0 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+          </material>
+        </visual>
+
+        <collision name="north"><pose>4 6 1.25 0 0 0</pose><geometry><box><size>8 0.1 2.5</size></box></geometry></collision>
+        <visual name="north_v">
+          <pose>4 6 1.25 0 0 0</pose>
+          <geometry><box><size>8 0.1 2.5</size></box></geometry>
+          <material>
+            <ambient>1 1 0 1</ambient>
+            <diffuse>1 1 0 1</diffuse>
+          </material>
+        </visual>
+
+        <collision name="west"><pose>0 3.5 1.25 0 0 0</pose><geometry><box><size>0.1 5 2.5</size></box></geometry></collision>
+        <visual name="west_v">
+          <pose>0 3.5 1.25 0 0 0</pose>
+          <geometry><box><size>0.1 5 2.5</size></box></geometry>
+          <material>
+            <ambient>1 1 0 1</ambient>
+            <diffuse>1 1 0 1</diffuse>
+          </material>
+        </visual>
+
+        <collision name="east"><pose>8 3 1.25 0 0 0</pose><geometry><box><size>0.1 6 2.5</size></box></geometry></collision>
+        <visual name="east_v">
+          <pose>8 3 1.25 0 0 0</pose>
+          <geometry><box><size>0.1 6 2.5</size></box></geometry>
+          <material>
+            <ambient>1 1 0 1</ambient>
+            <diffuse>1 1 0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="partition_walls">
+      <static>true</static>
+
+      <link name="wall_a">
+        <pose>2.5 1 1.4 0 0 0</pose>
+        <collision name="c">
+          <geometry>
+            <box><size>5.0 0.1 2.2</size></box>
+          </geometry>
+        </collision>
+        <visual name="v">
+          <geometry>
+            <box><size>5.0 0.1 2.2</size></box>
+          </geometry>
+          <material>
+            <ambient>1 1 0 1</ambient>
+            <diffuse>1 1 0 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+          </material>
+        </visual>
+      </link>
+
+      <visual name="door_frame_front">
+          <pose>-0.051 1.7 0 0 0 0</pose> <geometry>
+            <box><size>0.001 1.2 1.2</size></box> </geometry>
+          <material>
+            <pbr>
+              <metal>
+                <albedo_map>door.png</albedo_map> </metal>
+            </pbr>
+          </material>
+        </visual>
+
+
+
+      <link name="wall_b">
+        <pose>6 2.5 1.4 0 0 0</pose>
+        
+        <collision name="collision_left">
+          <pose>0 -0.575 0 0 0 0</pose>
+          <geometry><box><size>0.1 3.85 2.2</size></box></geometry>
+        </collision>
+        <visual name="visual_left">
+          <pose>0 -0.575 0 0 0 0</pose>
+          <geometry><box><size>0.1 3.85 2.2</size></box></geometry>
+          <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material>
+        </visual>
+
+        <collision name="collision_right">
+          <pose>0 2.275 0 0 0 0</pose>
+          <geometry><box><size>0.1 0.45 2.2</size></box></geometry>
+        </collision>
+        <visual name="visual_right">
+          <pose>0 2.275 0 0 0 0</pose>
+          <geometry><box><size>0.1 0.45 2.2</size></box></geometry>
+          <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material>
+        </visual>
+
+        <collision name="collision_top">
+          <pose>0 1.7 0.725 0 0 0</pose>
+          <geometry><box><size>0.1 0.7 0.75</size></box></geometry>
+        </collision>
+        <visual name="visual_top">
+          <pose>0 1.7 0.725 0 0 0</pose>
+          <geometry><box><size>0.1 0.7 0.75</size></box></geometry>
+          <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material>
+        </visual>
+
+        <collision name="collision_bottom">
+          <pose>0 1.7 -0.725 0 0 0</pose>
+          <geometry><box><size>0.1 0.7 0.75</size></box></geometry>
+        </collision>
+        <visual name="visual_bottom">
+          <pose>0 1.7 -0.725 0 0 0</pose>
+          <geometry><box><size>0.1 0.7 0.75</size></box></geometry>
+          <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material>
+        </visual>
+      </link>
+
+      <link name="wall_c">
+        <pose>1 4.5 1.4 0 0 0</pose>
+
+        <collision name="collision_left">
+          <pose>0 -0.925 0 0 0 0</pose>
+          <geometry><box><size>0.1 1.15 2.2</size></box></geometry>
+        </collision>
+        <visual name="visual_left">
+          <pose>0 -0.925 0 0 0 0</pose>
+          <geometry><box><size>0.1 1.15 2.2</size></box></geometry>
+          <material>
+            <ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse>
+          </material>
+        </visual>
+
+        <collision name="collision_right">
+          <pose>0 0.925 0 0 0 0</pose>
+          <geometry><box><size>0.1 1.15 2.2</size></box></geometry>
+        </collision>
+        <visual name="visual_right">
+          <pose>0 0.925 0 0 0 0</pose>
+          <geometry><box><size>0.1 1.15 2.2</size></box></geometry>
+          <material>
+            <ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse>
+          </material>
+        </visual>
+
+        <collision name="collision_top">
+          <pose>0 0 0.725 0 0 0</pose>
+          <geometry><box><size>0.1 0.7 0.75</size></box></geometry>
+        </collision>
+        <visual name="visual_top">
+          <pose>0 0 0.725 0 0 0</pose>
+          <geometry><box><size>0.1 0.7 0.75</size></box></geometry>
+          <material>
+            <ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse>
+          </material>
+        </visual>
+
+        <collision name="collision_bottom">
+          <pose>0 0 -0.725 0 0 0</pose>
+          <geometry><box><size>0.1 0.7 0.75</size></box></geometry>
+        </collision>
+        <visual name="visual_bottom">
+          <pose>0 0 -0.725 0 0 0</pose>
+          <geometry><box><size>0.1 0.7 0.75</size></box></geometry>
+          <material>
+            <ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="static_obstacles">
+      <static>true</static>
+
+      <!-- O1 -->
+      <link name="O1">
+        <pose>1.0 2.0 0.8 0 0 0</pose>
+        <collision name="c">
+          <geometry>
+            <box><size>0.4 0.4 1.6</size></box>
+          </geometry>
+        </collision>
+        <visual name="v">
+          <geometry>
+            <box><size>0.4 0.4 1.6</size></box>
+          </geometry>
+          <material>
+            <ambient>0.2 0.4 0.8 1</ambient>
+            <diffuse>0.2 0.4 0.8 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+          </material>
+        </visual>
+      </link>
+
+      <!-- O3 -->
+      <link name="O3">
+        <pose>4.0 4.0 0.8 0 0 0</pose>
+        <collision name="c">
+          <geometry>
+            <box><size>0.4 0.4 1.6</size></box>
+          </geometry>
+        </collision>
+        <visual name="v">
+          <geometry>
+            <box><size>0.4 0.4 1.6</size></box>
+          </geometry>
+          <material>
+            <ambient>0.2 0.4 0.8 1</ambient>
+            <diffuse>0.2 0.4 0.8 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+          </material>
+        </visual>
+      </link>
+
+      <!-- O4 -->
+      <link name="O4">
+        <pose>3.5 2.5 0.8 0 0 0</pose>
+        <!-- 注意：原代码缺少 collision，建议补上以确保物理阻挡 -->
+        <collision name="c">
+          <geometry>
+            <box><size>0.4 0.4 1.6</size></box>
+          </geometry>
+        </collision>
+        <visual name="v">
+          <geometry>
+            <box><size>0.4 0.4 1.6</size></box>
+          </geometry>
+          <material>
+            <ambient>0.2 0.4 0.8 1</ambient>
+            <diffuse>0.2 0.4 0.8 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+          </material>
+        </visual>
+      </link>
+
+      <!-- O5 -->
+      <link name="O5">
+        <pose>7.0 5.5 0.8 0 0 0</pose>
+        <!-- 同样，建议为 O5 添加 collision -->
+        <collision name="c">
+          <geometry>
+            <box><size>0.4 0.4 1.6</size></box>
+          </geometry>
+        </collision>
+        <visual name="v">
+          <geometry>
+            <box><size>0.4 0.4 1.6</size></box>
+          </geometry>
+          <material>
+            <ambient>0.2 0.4 0.8 1</ambient>
+            <diffuse>0.2 0.4 0.8 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+          </material>
+        </visual>
+      </link>
+
+    </model>
+
+    <actor name="moving_pillar_O2">
+      <link name="link">
+        <collision name="c">
+          <geometry>
+            <box><size>0.4 0.4 1.6</size></box>
+          </geometry>
+        </collision>
+        <visual name="v">
+          <geometry>
+            <box><size>0.4 0.4 1.6</size></box>
+          </geometry>
+          <material>
+            <ambient>0.2 0.8 0.2 1</ambient>
+            <diffuse>0.2 0.8 0.2 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+          </material>
+        </visual>
+      </link>
+      <script>
+        <loop>true</loop>
+        <auto_start>true</auto_start>
+        <trajectory id="0" type="linear">
+          <waypoint><time>0.0</time><pose>2.0 1.25 0.8 0 0 0</pose></waypoint>
+          <waypoint><time>12.0</time><pose>2.0 5.75 0.8 0 0 0</pose></waypoint>
+          <waypoint><time>24.0</time><pose>2.0 1.25 0.8 0 0 0</pose></waypoint>
+        </trajectory>
+      </script>
+    </actor>
+
+    <actor name="moving_pillar_O4">
+      <link name="link">
+        <collision name="c">
+          <geometry>
+            <box><size>0.4 0.4 1.6</size></box>
+          </geometry>
+        </collision>
+        <visual name="v">
+          <geometry>
+            <box><size>0.4 0.4 1.6</size></box>
+          </geometry>
+          <material>
+            <ambient>0.2 0.8 0.2 1</ambient>
+            <diffuse>0.2 0.8 0.2 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+          </material>
+        </visual>
+      </link>
+      <script>
+        <loop>true</loop>
+        <auto_start>true</auto_start>
+        <trajectory id="0" type="linear">
+          <waypoint><time>0.0</time><pose>6.25 4.0 0.8 0 0 0</pose></waypoint>
+          <waypoint><time>4.0</time><pose>7.75 4.0 0.8 0 0 0</pose></waypoint>
+          <waypoint><time>8.0</time><pose>6.25 4.0 0.8 0 0 0</pose></waypoint>
+        </trajectory>
+      </script>
+    </actor>
+
+    <model name="Area_A_Task">
+      <static>true</static>  <!-- 👈 关键！防止被物理引擎移除或下落 -->
+      <pose>0.5 5.0 0.011 0 0 0</pose>
+      <link name="target_pad">
+        <visual name="v">
+          <geometry>
+            <cylinder>
+              <radius>0.15</radius>
+              <length>0.02</length> <!-- 建议略高于地面，避免 Z-fighting -->
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 1 0 1</ambient>
+            <diffuse>0 1 0 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="Area_B_Task">
+      <static>true</static>
+      <!-- 红色圆 (R) at (6.4, 0.5, 0) -->
+      <link name="red_circle">
+        <pose>6.4 0.5 0.01 0 0 0</pose>
+        <visual name="v">
+          <geometry>
+            <cylinder>
+              <radius>0.15</radius>
+              <length>0.02</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>1 0 0 1</ambient>
+            <diffuse>1 0 0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+
+      <!-- 绿色圆 (G) at (7.4, 0.5, 0) -->
+      <link name="green_circle">
+        <pose>7.4 0.5 0.01 0 0 0</pose>
+        <visual name="v">
+          <geometry>
+            <cylinder>
+              <radius>0.15</radius>
+              <length>0.02</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 1 0 1</ambient>
+            <diffuse>0 1 0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+
+      <!-- 蓝色圆 (B) at (6.9, 1.5, 0) -->
+      <link name="blue_circle">
+        <pose>6.9 1.5 0.01 0 0 0</pose>
+        <visual name="v">
+          <geometry>
+            <cylinder>
+              <radius>0.15</radius>
+              <length>0.02</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0 0 1 1</ambient>
+            <diffuse>0 0 1 1</diffuse>
+          </material>
+        </visual>
+      </link>
+
+    </model>
+    
+    <light name="sunUTC" type="directional">
+      <pose>0 0 500 0 -0 0</pose>
+      <cast_shadows>true</cast_shadows>
+      <intensity>1</intensity>
+      <direction>0.001 0.625 -0.78</direction>
+      <diffuse>0.904 0.904 0.904 1</diffuse>
+      <specular>0.271 0.271 0.271 1</specular>
+      <attenuation>
+        <range>2000</range>
+        <linear>0</linear>
+        <constant>1</constant>
+        <quadratic>0</quadratic>
+      </attenuation>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <world_frame_orientation>ENU</world_frame_orientation>
+      <latitude_deg>47.397971057728974</latitude_deg>
+      <longitude_deg> 8.546163739800146</longitude_deg>
+      <elevation>0</elevation>
+    </spherical_coordinates>
+
+    <include>
+      <uri>model://door</uri>
+      <pose>5.8 4.2 1.25 0 -1.57 0</pose>
+      <name>door_b</name>
+    </include>
+
+    <include>
+      <uri>model://door</uri>
+      <pose>1.2 4.5 1.25 0.0 1.57 0</pose>
+      <name>door_c</name>
+    </include>
+  </world>
+</sdf>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf version='1.9'>
+  <model name='x290_mono_cam_down_lidar_3d_depth'>
+    <self_collide>false</self_collide>
+    <include merge='true'>
+      <uri>x290</uri>
+    </include>
+    <include merge='true'>
+      <uri>model://mono_cam</uri>
+      <pose>0 0 .10 0 1.5707 0</pose>
+      <name>mono_cam</name>
+    </include>
+    <joint name="Mono_CameraJoint" type="fixed">
+      <parent>base_link</parent>
+      <child>camera_link</child>
+      <pose relative_to="base_link">0 0 0 0 1.5707 0</pose>
+    </joint>
+    <include merge='true'>
+      <!-- <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Lidar 2d v2</uri> -->
+      <uri>model://lidar_3d_v2</uri>
+      <pose>.12 0 .26 0 0 0</pose>
+    </include>
+    <joint name="LidarJoint" type="fixed">
+      <parent>base_link</parent>
+      <child>link</child>
+      <pose relative_to="base_link">-.01 0 .026 0 0 0</pose>
+    </joint>
+    <include merge='true'>
+      <uri>model://OakD-Lite</uri>
+      <pose>.012 .003 .0242 0 0 0</pose>
+    </include>
+    <joint name="Depth_CameraJoint" type="fixed">
+      <parent>base_link</parent>
+      <child>camera_link</child>
+      <pose relative_to="base_link">.12 .03 .242 0 0 0</pose>
+    </joint>
+  </model>
+</sdf>

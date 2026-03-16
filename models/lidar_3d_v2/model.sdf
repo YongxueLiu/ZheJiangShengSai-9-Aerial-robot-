@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <model name="lidar_3d_v2"> <!-- 模型名改为 lidar_3d_v2，语义更清晰 -->
+    <link name="link">
+      <pose>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0.0435 0 0 0</pose>
+        <mass>0.37</mass>
+        <inertia>
+          <ixx>0.00034437749999999994</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00034437749999999994</iyy>
+          <iyz>0</iyz>
+          <izz>0.00022199999999999998</izz>
+        </inertia>
+      </inertial>
+
+      <!-- 碰撞体保持不变 -->
+      <collision name="collision_base">
+        <pose>0 0 0.0205 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.06 0.06 0.041</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="collision_mid">
+        <pose>0 0 0.055 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.025</radius>
+            <length>0.028</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <collision name="collision_top">
+        <pose>0 0 0.078 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.056 0.056 0.018</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <!-- 视觉网格保持不变 -->
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://lidar_2d_v2/meshes/lidar_2d_v2.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <!-- ⭐⭐⭐ 重点修改：将 2D LiDAR 改为 3D LiDAR ⭐⭐⭐ -->
+      <sensor name="lidar_3d_v2" type="gpu_lidar"> <!-- 传感器名同步更新 -->
+        <gz_frame_id>link</gz_frame_id>
+        <pose>0 0 0.055 0 0 0</pose>
+        <topic>lidar_points</topic> <!-- ⚠️ 改为 PointCloud2 话题，不再是 scan -->
+        <point_cloud>true</point_cloud>
+
+        <ray>
+          <scan>
+            <!-- 水平扫描（方位角）：保持原设置 -->
+            <horizontal>
+              <samples>1080</samples>
+              <resolution>1</resolution>
+              <min_angle>-2.356195</min_angle> <!-- -135° -->
+              <max_angle>2.356195</max_angle>  <!-- +135° -->
+            </horizontal>
+
+            <!-- ✅ 新增：垂直扫描（俯仰角）——这是实现 3D 的关键！ -->
+            <vertical>
+              <samples>32</samples>            <!-- 垂直方向 32 线（类似 VLP-32 mid-360） -->
+              <resolution>1</resolution>
+              <min_angle>-0.4851</min_angle>   <!-- -15° (弧度) -->
+              <max_angle>0.5550</max_angle>    <!-- +15° (弧度) -->
+            </vertical>
+          </scan>
+
+          <range>
+            <min>0.1</min>
+            <max>30</max>
+            <resolution>0.01</resolution>
+          </range>
+
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.015</stddev>
+          </noise>
+        </ray>
+
+        <!-- ⚙️ 优化参数：3D 点云数据量大，建议调整 -->
+        <always_on>1</always_on>     <!-- ✅ 改为 1：持续运行 -->
+        <update_rate>10</update_rate> <!-- ✅ 降低频率：30 → 10 Hz，避免卡顿 -->
+        <visualize>true</visualize>  <!-- ✅ 改为 true：可在 Gazebo 中看到 3D 射线 -->
+      </sensor>
+    </link>
+  </model>
+</sdf>
